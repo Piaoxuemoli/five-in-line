@@ -1,5 +1,6 @@
 import pygame as pg
 import sys
+import time
 
 #初始化pygame
 pg.init()
@@ -124,11 +125,13 @@ class Player:
             return True
         return False
 
-    def move(self,board,x,y):
+    def move(self,board_move,x,y):
         #走子函数
-        state_change(board,x,y,self.color)
-        draw_chess(screen,x,y,self.color)
-        state_change(board,x,y,self.color)
+        if board_move[x][y]==0:
+            state_change(board_move,x,y,self.color)
+            return False
+        else:
+            return True
 
 #初始化棋盘
 chessboard = ChessBoard()
@@ -143,6 +146,7 @@ pg.draw.rect(screen, (173, 216, 230), (0, 0, width, height))#背景颜色
 draw_board(screen)#绘制棋盘
 
 game_over = False#游戏是否结束
+same_place = False#是否走过同一个位置
 
 #游戏主循环
 running = True
@@ -155,33 +159,33 @@ while running:
         elif not game_over:
             if event.type == pg.MOUSEBUTTONDOWN:
                 x, y = round(event.pos[0]/40)-1, round(event.pos[1]/40)-1#获取鼠标位置
-                current_player.move(chessboard.board,x,y)#走子
-                state_change(chessboard.board,x,y,current_player.color)#改变棋盘状态
+                same_place = current_player.move(chessboard.board,x,y)#走子并判断是否合法
                 #画出所有棋子
                 for i in range(15):
                     for j in range(15):
                         if chessboard.board[i][j]!=0:
                             draw_chess(screen,i,j,chessboard.board[i][j])
-                #判断胜负
-                if current_player.win_check(chessboard.board,x,y):
-                    #显示胜利信息
-                    tb=font.render("black win!", True, (255, 0, 0))
-                    tb_rect=tb.get_rect()
-                    tb_rect.center=(width/2,height/2)
-                    tw=font.render("white win!", True, (255, 0, 0))
-                    tw_rect=tw.get_rect()
-                    tw_rect.center=(width/2,height/2+30)
-                    if current_player.color == 1:
-                        screen.blit(tb,tb_rect)
-                    else:
-                        screen.blit(tw,tw_rect)
-                    game_over = True
+                if not same_place:
+                    #判断胜负
+                    if current_player.win_check(chessboard.board,x,y):
+                        #显示胜利信息
+                        tb=font.render("black win!", True, (255, 0, 0))
+                        tb_rect=tb.get_rect()
+                        tb_rect.center=(width/2,height/2)
+                        tw=font.render("white win!", True, (255, 0, 0))
+                        tw_rect=tw.get_rect()
+                        tw_rect.center=(width/2,height/2+30)
+                        if current_player.color == 1:
+                            screen.blit(tb,tb_rect)
+                        else:
+                            screen.blit(tw,tw_rect)
+                        game_over = True
 
-                #交换棋手
-                if current_player == player_black:
-                    current_player = player_white
-                else:
-                    current_player = player_black
+
+                    if current_player == player_black:
+                        current_player = player_white
+                    else:
+                        current_player = player_black
+
+        pg.display.flip()#更新显示
        
-    #循环绘制
-    pg.display.flip()
