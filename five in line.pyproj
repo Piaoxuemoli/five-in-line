@@ -3,13 +3,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9d8914f8-a7a7-426f-b686-d882493ef014</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
-    <StartupFile>five_in_line0.0.py</StartupFile>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>five_in_line.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>five in line0.0</Name>
+    <Name>five in line</Name>
     <RootNamespace>five in line0.0</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -21,7 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="five_in_line0.0.py" />
+    <Compile Include="five_in_line.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
